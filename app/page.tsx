@@ -1,100 +1,137 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect, useRef } from "react";
+import GlassCard from "@/components/ui/GlassCard";
+import { animateIn } from "@/lib/animations";
+import { BusFront, SearchCheck, Landmark, BriefcaseBusiness, Stethoscope, Sprout, Sun, Bot } from "lucide-react";
+
+const modules = [
+  {
+    title: "Smart Mobility",
+    icon: <BusFront size={28} className="text-foreground" />,
+    href: "/modules/mobility",
+    description: "Report road issues, track public transit, and improve commute experiences across the Philippines.",
+    color: "rgba(0, 56, 168, 0.4)",
+  },
+  {
+    title: "VibeCheck PH",
+    icon: <SearchCheck size={28} className="text-foreground" />,
+    href: "/modules/disinfo",
+    description: "Flag misinformation, verify news, and promote digital literacy in your community.",
+    color: "rgba(206, 17, 38, 0.4)",
+  },
+  {
+    title: "Good Governance",
+    icon: <Landmark size={28} className="text-foreground" />,
+    href: "/modules/governance",
+    description: "Track government budgets, submit complaints, and hold local officials accountable.",
+    color: "rgba(252, 209, 22, 0.25)",
+  },
+  {
+    title: "Jobs & Livelihood",
+    icon: <BriefcaseBusiness size={28} className="text-foreground" />,
+    href: "/modules/employment",
+    description: "Find jobs, post opportunities, and connect workers with employers across regions.",
+    color: "rgba(34, 197, 94, 0.3)",
+  },
+  {
+    title: "Healthcare Access",
+    icon: <Stethoscope size={28} className="text-foreground" />,
+    href: "/modules/healthcare",
+    description: "Book medical appointments, locate clinics, and access health services near you.",
+    color: "rgba(59, 130, 246, 0.35)",
+  },
+  {
+    title: "Agri Connect",
+    icon: <Sprout size={28} className="text-foreground" />,
+    href: "/modules/agriculture",
+    description: "View live market prices, connect farmers with buyers, and share agricultural insights.",
+    color: "rgba(132, 204, 22, 0.3)",
+  },
+];
+
+export default function DashboardPage() {
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (heroRef.current) {
+      animateIn(heroRef.current, { delay: 0 });
+    }
+    if (cardsRef.current) {
+      const cards = cardsRef.current.querySelectorAll(".glass-card");
+      animateIn(cards, { delay: 0.2, stagger: 0.1 });
+    }
+  }, []);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen px-4 md:px-8 py-8">
+      {/* ── Hero ─────────────────────────────────────────── */}
+      <section ref={heroRef} className="mb-10 opacity-0">
+        {/* Philippine sun decoration */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className="relative text-ph-yellow drop-shadow-lg">
+            <Sun size={48} className="animate-[spin_20s_linear_infinite]" />
+          </div>
+          <div>
+            <h1 className="font-heading font-black text-3xl md:text-5xl text-foreground leading-tight">
+              Bayanihan
+              <span className="block text-ph-yellow">Super App</span>
+            </h1>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+        <p className="text-foreground/60 text-base md:text-lg max-w-2xl leading-relaxed">
+          One platform. Six missions. Empowering every Filipino community through
+          technology, transparency, and collective action.
+        </p>
+
+        {/* Stats bar */}
+        <div className="flex flex-wrap gap-4 mt-6">
+          {[
+            { label: "Modules", value: "6" },
+            { label: "Challenges Solved", value: "6" },
+            { label: "Powered By", value: "🇵🇭" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="glass-panel px-4 py-2 flex items-center gap-2"
+            >
+              <span className="font-heading font-bold text-ph-yellow text-lg">
+                {stat.value}
+              </span>
+              <span className="text-foreground/50 text-sm">{stat.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Module Cards Grid ─────────────────────────────── */}
+      <div
+        ref={cardsRef}
+        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5"
+      >
+        {modules.map((mod) => (
+          <div key={mod.href} className="opacity-0">
+            <GlassCard
+              title={mod.title}
+              icon={mod.icon}
+              href={mod.href}
+              description={mod.description}
+              color={mod.color}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* ── Footer ───────────────────────────────────────── */}
+      <footer className="mt-16 text-center text-foreground/30 text-xs leading-relaxed border-t border-foreground/10 pt-8">
+        <p>
+          <Bot size={14} className="inline-block mr-1 text-foreground/40" /> AI-assisted development — Built for{" "}
+          <strong className="text-foreground/50">InterCICSkwela Hackathon 2026</strong>
+        </p>
+        <p className="mt-1">
+          Powered by Next.js 14 · Supabase · GSAP · Tailwind CSS
+        </p>
       </footer>
     </div>
   );

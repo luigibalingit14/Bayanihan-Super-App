@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌺 Bayanihan Super App
 
-## Getting Started
+> **InterCICSkwela Hackathon 2026** — One platform. Six missions. Serving every Filipino.
+> 
+> **Owner**: [Luigi Balingit](https://github.com/luigibalingit14)
+> **Repository**: [https://github.com/luigibalingit14/Bayanihan-Super-App.git](https://github.com/luigibalingit14/Bayanihan-Super-App.git)
 
-First, run the development server:
+A full-stack civic super app built with **Next.js 14**, **Supabase**, **GSAP**, and **Tailwind CSS** that addresses all 6 hackathon challenges through modular, glassmorphism-styled feature pages.
 
+---
+
+## 🚀 Modules
+
+| # | Module | Challenge | Route |
+|---|--------|-----------|-------|
+| 1 | 🚌 Smart Mobility | Road reporting & transit | `/modules/mobility` |
+| 2 | 🔍 VibeCheck PH | Misinformation flagging | `/modules/disinfo` |
+| 3 | 🏛️ Good Governance | Budget tracker & complaints | `/modules/governance` |
+| 4 | 💼 Jobs & Livelihood | Job board & applications | `/modules/employment` |
+| 5 | 🏥 Healthcare Access | Clinic finder & booking | `/modules/healthcare` |
+| 6 | 🌾 Agri Connect | Market prices & farmer posts | `/modules/agriculture` |
+
+---
+
+## 🛠 Tech Stack
+
+- **Framework**: Next.js 14 (App Router, Server Actions)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS + custom glassmorphism CSS
+- **Database**: Supabase (PostgreSQL + RLS)
+- **Animations**: GSAP 3
+- **Validation**: Zod
+- **Deployment**: Vercel
+
+---
+
+## ⚡ Quick Start
+
+### 1. Install dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Set up environment variables
+```bash
+cp .env.local.example .env.local
+```
+Edit `.env.local` and fill in your Supabase credentials:
+```
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Set up the database
+Run `supabase/schema.sql` in your [Supabase SQL Editor](https://supabase.com/dashboard).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Run locally
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000)
 
-## Learn More
+### 5. Build for production
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🗂 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+├── layout.tsx          # Root layout + nav
+├── page.tsx            # Dashboard (6 module cards)
+├── loading.tsx         # Root skeleton
+├── error.tsx           # Error boundary
+├── actions/            # Server Actions
+│   ├── reports.ts
+│   ├── posts.ts
+│   └── bookings.ts
+└── modules/
+    ├── mobility/
+    ├── disinfo/
+    ├── governance/
+    ├── employment/
+    ├── healthcare/
+    └── agriculture/
+components/
+├── ui/
+│   ├── GlassCard.tsx
+│   └── GlassButton.tsx
+└── nav/
+    └── ResponsiveNav.tsx
+lib/
+├── supabaseClient.ts
+└── animations.ts
+supabase/
+└── schema.sql
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🤖 AI Disclosure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [AI_DISCLOSURE.md](./AI_DISCLOSURE.md) for full details on AI tool usage.
+
+---
+
+## 📜 License
+
+MIT — Built for hackathon purposes.
