@@ -1,29 +1,44 @@
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { login, signup } from "@/app/actions/auth";
 import GlassButton from "@/components/ui/GlassButton";
-import { Sun, Mail, Lock } from "lucide-react";
+import { Sun, Mail, Lock, CheckCircle } from "lucide-react";
 import { animateIn } from "@/lib/animations";
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   useEffect(() => {
     animateIn(document.querySelectorAll(".auth-element"), { delay: 0.1, stagger: 0.1 });
   }, [isLogin]);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
+    setSuccessMsg(null);
     const fd = new FormData(e.currentTarget);
-    
+
     startTransition(async () => {
       const result = isLogin ? await login(fd) : await signup(fd);
       if (result?.error) {
         setError(result.error);
+      } else if (result?.success) {
+        const msg =
+          "message" in result && typeof result.message === "string"
+            ? result.message
+            : undefined;
+        if (msg) {
+          setSuccessMsg(msg);
+        } else {
+          router.push("/");
+          router.refresh();
+        }
       }
     });
   }
@@ -47,47 +62,56 @@ export default function LoginPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="auth-element opacity-0">
-            <label className="block text-foreground/70 text-sm mb-1">Email Address</label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/40" size={18} />
-              <input 
-                name="email" 
-                type="email" 
-                required 
-                className="glass-input pl-10" 
-                placeholder="juan@example.com"
-              />
-            </div>
+        {successMsg && (
+          <div className="mb-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-400 text-sm flex items-center gap-2">
+            <CheckCircle size={18} className="flex-shrink-0" />
+            {successMsg}
           </div>
-          
-          <div className="auth-element opacity-0">
-            <label className="block text-foreground/70 text-sm mb-1">Password</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/40" size={18} />
-              <input 
-                name="password" 
-                type="password" 
-                required 
-                className="glass-input pl-10" 
-                placeholder="••••••••"
-                minLength={6}
-              />
-            </div>
-          </div>
+        )}
 
-          <div className="pt-2 auth-element opacity-0">
-            <GlassButton type="submit" loading={isPending} className="w-full">
-              {isLogin ? "Sign In" : "Sign Up"}
-            </GlassButton>
-          </div>
-        </form>
+        {!successMsg && (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="auth-element opacity-0">
+              <label className="block text-foreground/70 text-sm mb-1">Email Address</label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/40" size={18} />
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  className="glass-input pl-10"
+                  placeholder="juan@example.com"
+                />
+              </div>
+            </div>
+
+            <div className="auth-element opacity-0">
+              <label className="block text-foreground/70 text-sm mb-1">Password</label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/40" size={18} />
+                <input
+                  name="password"
+                  type="password"
+                  required
+                  className="glass-input pl-10"
+                  placeholder="••••••••"
+                  minLength={6}
+                />
+              </div>
+            </div>
+
+            <div className="pt-2 auth-element opacity-0">
+              <GlassButton type="submit" loading={isPending} className="w-full">
+                {isLogin ? "Sign In" : "Sign Up"}
+              </GlassButton>
+            </div>
+          </form>
+        )}
 
         <div className="mt-6 text-center auth-element opacity-0">
-          <button 
+          <button
             type="button"
-            onClick={() => { setIsLogin(!isLogin); setError(null); }}
+            onClick={() => { setIsLogin(!isLogin); setError(null); setSuccessMsg(null); }}
             className="text-sm text-foreground/60 hover:text-ph-yellow transition-colors"
           >
             {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}

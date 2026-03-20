@@ -18,8 +18,6 @@ import {
   Bot,
   LogIn,
   LogOut,
-  LayoutGrid,
-  X
 } from "lucide-react";
 
 const navItems = [
@@ -34,7 +32,7 @@ const navItems = [
 
 export default function ResponsiveNav() {
   const pathname = usePathname();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ id: string; email?: string } | null>(null);
 
   useEffect(() => {
     const supabase = createClient();

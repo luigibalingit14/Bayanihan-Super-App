@@ -89,6 +89,7 @@ export default function EmploymentPage() {
                 variant={applied.has(job.id) ? "secondary" : "primary"}
                 onClick={() => handleApply(job)}
                 disabled={applied.has(job.id)}
+                loading={isPending && !applied.has(job.id)}
                 className="text-sm"
               >
                 {applied.has(job.id) ? <><CheckCircle size={16} className="mr-2" /> Applied</> : <><BriefcaseBusiness size={16} className="mr-2"/> Apply Now</>}

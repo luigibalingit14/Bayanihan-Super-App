@@ -19,7 +19,7 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  return { success: true };
 }
 
 export async function signup(formData: FormData) {
@@ -30,14 +30,24 @@ export async function signup(formData: FormData) {
     password: formData.get("password") as string,
   };
 
-  const { error } = await supabase.auth.signUp(data);
+  const { data: authData, error } = await supabase.auth.signUp(data);
 
   if (error) {
     return { error: error.message };
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+
+  // No active session means Supabase requires email confirmation first
+  if (!authData.session) {
+    return {
+      success: true,
+      message:
+        "Account created! Please check your email to confirm your registration before signing in.",
+    };
+  }
+
+  return { success: true };
 }
 
 export async function logout() {
